@@ -10,6 +10,7 @@ A comprehensive REST API service built with Django REST Framework for managing a
 * **Atomic Transactions:** Secure order and ticket creation process. Tickets are created simultaneously with the order using `transaction.atomic()` to ensure data integrity and prevent race conditions.
 * **Database Optimization:** Minimized database hits using `select_related` and `prefetch_related` in viewsets to avoid the N+1 query problem.
 * **Custom Geography Logic (Bonus):** Extended the base requirement by introducing `Country` and `City` models, creating a more realistic hierarchical relationship for `Airport` locations while maintaining backward compatibility with the `closest_big_city` field.
+* **Documentation:** is located at /api/doc/swagger/
 
 ## 🐳 Installation & Local Setup (Docker)
 
@@ -56,9 +57,11 @@ Authorization: Bearer <your_access_token>
 🗄️ Database Structure
 The database schema diagram can be found here:
 ![DB Diagram](docs/images/db.png)
-Project screenshots^
+Project screenshots:
 ![Create User](docs/images/create_user.png)
 ![Aviation API Root](docs/images/aviation_api_root.png)
 ![Airports List](docs/images/airports_list.png)
 ![Orders API Root](docs/images/orders_api.png)
 ![Route List With Filtering](docs/images/route_list_filtering.png)
+API Documentation:
+![API SWAGGER Documentation](docs/images/api_documentation.png)
