@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (
+from aviation.models import (
     Airport,
     Route,
     Crew,
@@ -16,23 +16,27 @@ class CountrySerializer(serializers.ModelSerializer):
         model = Country
         fields = ("id", "name")
 
+
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
         fields = ("id", "name", "country")
 
+
 class CityListSerializer(CitySerializer):
     country = serializers.CharField(source="country.name", read_only=True)
+
 
 class AirportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
         fields = ("id", "name", "city", "closest_big_city")
 
+
 class AirportListSerializer(AirportSerializer):
     city = serializers.CharField(source="city.name", read_only=True)
     country = serializers.CharField(source="city.country.name", read_only=True)
-    
+
     class Meta(AirportSerializer.Meta):
         fields = ("id", "name", "city", "country")
 
@@ -41,7 +45,7 @@ class RouteSerializer(serializers.ModelSerializer):
     # Get full information about airport
     source = AirportSerializer(read_only=True)
     destination = AirportSerializer(read_only=True)
-    
+
     # For writing transfer ID of airport
     source_id = serializers.PrimaryKeyRelatedField(
         queryset=Airport.objects.all(), source='source', write_only=True
@@ -53,11 +57,11 @@ class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         fields = (
-            'id', 
-            'source', 
-            'destination', 
-            'source_id', 
-            'destination_id', 
+            'id',
+            'source',
+            'destination',
+            'source_id',
+            'destination_id',
             'distance'
         )
 
@@ -71,13 +75,6 @@ class RouteListSerializer(RouteSerializer):
     class Meta:
         model = Route
         fields = ("id", "source", "destination", "distance")
-
-
-class CrewSerializer(serializers.ModelSerializer):
-
-  class Meta:
-    model = Crew
-    fields = ("id", "first_name", "last_name")
 
 
 class CrewSerializer(serializers.ModelSerializer):

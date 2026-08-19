@@ -18,7 +18,9 @@ class TicketSerializer(serializers.ModelSerializer):
         try:
             ticket.clean()
         except Exception as e:
-            raise serializers.ValidationError(e.message_dict if hasattr(e, 'message_dict') else str(e))
+            raise serializers.ValidationError(
+                e.message_dict if hasattr(e, 'message_dict') else str(e)
+            )
         return data
 
 
@@ -43,19 +45,20 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Витягуємо дані квитків із загального словника
         tickets_data = validated_data.pop("tickets")
-        
+
         # Відкриваємо транзакцію
         with transaction.atomic():
             # Create order
             order = Order.objects.create(**validated_data)
-            
+
             # List all tickets and add them to created order
             for ticket_data in tickets_data:
                 Ticket.objects.create(order=order, **ticket_data)
-                
+
             return order
 
 
 class OrderListSerializer(OrderSerializer):
-    """Detail serializer for orders list with list of tickets and full info about flight"""
+    """Detail serializer for orders list with
+    list of tickets and full info about flight"""
     tickets = TicketDetailSerializer(many=True, read_only=True)

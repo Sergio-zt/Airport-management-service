@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-74pr_#4m2u-ut4w%vul^lze$@*8hps8r-6xpp#h^z%!x3^w*+1"
+SECRET_KEY = os.environ.get("SECRET_KEY", "default-insecure-key-for-local-dev")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = []
 
@@ -79,11 +79,14 @@ SIMPLE_JWT = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Airport Management Service API",
-    "DESCRIPTION": "API service for managing airline infrastructure, flights, routing, and ticket bookings.",
+    "DESCRIPTION": (
+        "API service for managing airline infrastructure,"
+        "flights, routing, and ticket bookings."
+    ),
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "CONTACT": {
-        "name": "Sergio", 
+        "name": "Sergio",
         "email": "fop.gso@gmail.com"
     },
 }
@@ -128,7 +131,9 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        ),
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
