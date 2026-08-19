@@ -1,11 +1,40 @@
 from rest_framework import serializers
-from .models import Airport, Route, Crew, AirplaneType, Airplane, Flight
+from .models import (
+    Airport,
+    Route,
+    Crew,
+    AirplaneType,
+    Airplane,
+    Flight,
+    Country,
+    City
+)
 
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ("id", "name")
+
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ("id", "name", "country")
+
+class CityListSerializer(CitySerializer):
+    country = serializers.CharField(source="country.name", read_only=True)
 
 class AirportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
-        fields = ('id', 'name', 'closest_big_city')
+        fields = ("id", "name", "city", "closest_big_city")
+
+class AirportListSerializer(AirportSerializer):
+    city = serializers.CharField(source="city.name", read_only=True)
+    country = serializers.CharField(source="city.country.name", read_only=True)
+    
+    class Meta(AirportSerializer.Meta):
+        fields = ("id", "name", "city", "country")
 
 
 class RouteSerializer(serializers.ModelSerializer):
