@@ -25,7 +25,8 @@ urlpatterns = [
         include(
             [
                 path("users/", include("users.urls")),
-                path("airports/", include("airports.urls")),
+                path("aviation/", include("aviation.urls")),
+                path("orders/", include("orders.urls")),
             ]
         ),
     ),
