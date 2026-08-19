@@ -31,7 +31,7 @@ Create a .env file in the root directory and add your database credentials:
     ```
 
 3. **Build and Run the Containers:**
-    ````bash
+    ```bash
     docker-compose up --build
     ```
 
