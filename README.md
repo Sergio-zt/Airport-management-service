@@ -56,7 +56,9 @@ Authorization: Bearer <your_access_token>
 🗄️ Database Structure
 The database schema diagram can be found here:
 ![DB Diagram](docs/images/db.png)
+Project screenshots^
 ![Create User](docs/images/create_user.png)
 ![Aviation API Root](docs/images/aviation_api_root.png)
 ![Airports List](docs/images/airports_list.png)
 ![Orders API Root](docs/images/orders_api.png)
+![Route List With Filtering](docs/images/route_list_filtering.png)
