@@ -45,6 +45,17 @@ class AirportViewSet(viewsets.ModelViewSet):
     queryset = Airport.objects.select_related("city__country").all()
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
+    # Returns all airports associated with a specific city ID
+    # or with the exact text value city`s name, `closest_big_city`
+    filterset_fields = ["city", "city__name", "closest_big_city"]
+
+    # Search by the airport's name, the nearest city (as a text string),
+    # and we also “dive” into the connections to search by the City and Country model names
+    search_fields = ["name", "closest_big_city", "city__name", "city__country__name"]
+
+    # Allow the list of airports to be sorted alphabetically (by name)
+    ordering_fields = ["name", "id"]
+
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
             return AirportListSerializer
@@ -75,20 +86,29 @@ class AirplaneViewSet(viewsets.ModelViewSet):
 
 
 class FlightViewSet(viewsets.ModelViewSet):
-  queryset = (
-      Flight.objects.select_related(
-          "route__source", "route__destination", "airplane__airplane_type"
-      )
-      .prefetch_related("crew")
-      .all()
-  )
-  permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
+    queryset = (
+        Flight.objects.select_related(
+            "route__source", "route__destination", "airplane__airplane_type"
+        )
+        .prefetch_related("crew")
+        .all()
+    )
+    permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
-  def get_serializer_class(self):
-    if self.action == "list":
-      return FlightListSerializer
+    # Allows filtering by airport ID in a route
+    filterset_fields = ["route__source", "route__destination"]
 
-    if self.action == "retrieve":
-      return FlightDetailSerializer
+    # Allows you to search for flights by aircraft type or departure city
+    search_fields = ["airplane__name", "route__source__city__name"]
 
-    return FlightSerializer
+    # Allow customers to sort lists by departure time (oldest first or newest first)
+    ordering_fields = ["departure_time"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return FlightListSerializer
+
+        if self.action == "retrieve":
+            return FlightDetailSerializer
+
+        return FlightSerializer
