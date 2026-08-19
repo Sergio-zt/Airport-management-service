@@ -14,7 +14,11 @@ class Country(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=255)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="cities")
+    country = models.ForeignKey(
+        Country,
+        on_delete=models.CASCADE,
+        related_name="cities"
+    )
 
     class Meta:
         verbose_name_plural = "cities"
@@ -28,7 +32,7 @@ class Airport(models.Model):
     name = models.CharField(max_length=255, unique=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="airports")
     closest_big_city = models.CharField(max_length=255)
-    
+
     def __str__(self):
         return f"{self.name} - {self.city.name}"
 

@@ -1,15 +1,14 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .permissions import IsAdminOrIfAuthenticatedReadOnly
+from aviation.permissions import IsAdminOrIfAuthenticatedReadOnly
 from aviation.models import (
-   Airplane,
-   AirplaneType,
-   Airport,
-   Crew,
-   Flight,
-   Route,
-   Country,
-   City
+    Airplane,
+    AirplaneType,
+    Airport,
+    Crew,
+    Flight,
+    Route,
+    Country,
+    City
 )
 from aviation.serializers import (
     AirplaneSerializer,
@@ -32,6 +31,7 @@ class CountryViewSet(viewsets.ModelViewSet):
     serializer_class = CountrySerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
+
 class CityViewSet(viewsets.ModelViewSet):
     queryset = City.objects.select_related("country").all()
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
@@ -40,6 +40,7 @@ class CityViewSet(viewsets.ModelViewSet):
         if self.action in ["list", "retrieve"]:
             return CityListSerializer
         return CitySerializer
+
 
 class AirportViewSet(viewsets.ModelViewSet):
     queryset = Airport.objects.select_related("city__country").all()
@@ -50,7 +51,8 @@ class AirportViewSet(viewsets.ModelViewSet):
     filterset_fields = ["city", "city__name", "closest_big_city"]
 
     # Search by the airport's name, the nearest city (as a text string),
-    # and we also “dive” into the connections to search by the City and Country model names
+    # and we also “dive” into the connections to search by the City
+    # and Country model names
     search_fields = ["name", "closest_big_city", "city__name", "city__country__name"]
 
     # Allow the list of airports to be sorted alphabetically (by name)
@@ -60,6 +62,7 @@ class AirportViewSet(viewsets.ModelViewSet):
         if self.action in ["list", "retrieve"]:
             return AirportListSerializer
         return AirportSerializer
+
 
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.select_related("source", "destination").all()
