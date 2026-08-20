@@ -11,7 +11,6 @@ class AirportAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
-# Регистрируем остальные модели
 admin.site.register(Country)
 admin.site.register(City)
 admin.site.register(Route)
