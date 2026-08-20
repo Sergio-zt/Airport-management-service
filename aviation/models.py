@@ -33,6 +33,9 @@ class Airport(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="airports")
     closest_big_city = models.CharField(max_length=255)
 
+    class Meta:
+        ordering = ["id"]
+
     def __str__(self):
         return f"{self.name} - {self.city.name}"
 
