@@ -43,7 +43,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ("id", "created_at", "tickets")
 
     def create(self, validated_data):
-        # Витягуємо дані квитків із загального словника
         tickets_data = validated_data.pop("tickets")
 
         # Відкриваємо транзакцію
