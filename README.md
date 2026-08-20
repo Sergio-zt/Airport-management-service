@@ -24,11 +24,13 @@ The most convenient way to run this project is using Docker. Ensure you have Doc
 2. **Set up Environment Variables:**
 Create a .env file in the root directory and add your database credentials:
     ```bash
-    POSTGRES_DB=airport_db
-    POSTGRES_USER=admin
-    POSTGRES_PASSWORD=supersecretpassword
-    POSTGRES_HOST=db_host
-    POSTGRES_PORT=5432
+    POSTGRES_DB=POSTGRES_DB
+    POSTGRES_USER=POSTGRES_USER
+    POSTGRES_PASSWORD=POSTGRES_PASSWORD
+    POSTGRES_HOST=POSTGRES_HOST
+    POSTGRES_PORT=POSTGRES_PORT
+    SECRET_KEY=django-insecure-SECRET_KEY
+    DEBUG=True
     ```
 
 3. **Build and Run the Containers:**
