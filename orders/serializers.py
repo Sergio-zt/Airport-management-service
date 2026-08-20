@@ -45,7 +45,6 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         tickets_data = validated_data.pop("tickets")
 
-        # Відкриваємо транзакцію
         with transaction.atomic():
             # Create order
             order = Order.objects.create(**validated_data)
